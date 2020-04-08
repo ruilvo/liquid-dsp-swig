@@ -37,23 +37,22 @@ set_property(
 set_property(
   TARGET libliquid
   PROPERTY PUBLIC_HEADER "${CMAKE_SOURCE_DIR}/external/liquid/include/liquid.h")
+target_include_directories(
+  libliquid INTERFACE "${CMAKE_SOURCE_DIR}/external/liquid/include/")
 
 # A library for extra functions that I decide to define
 add_library(liquidbindings STATIC "src/liquidbindings.cpp")
 target_include_directories(liquidbindings PUBLIC "include/")
+target_link_libraries(liquidbindings PRIVATE libliquid)
 
 # SWIG library to generate bindings
 swig_add_library(liquidswigpython LANGUAGE python SOURCES "swig/libliquid.i")
 target_link_libraries(liquidswigpython PUBLIC Python::Module Python::NumPy
                                               libliquid liquidbindings)
 target_include_directories(
-  liquidswigpython
-  PRIVATE "${Python_INCLUDE_DIRS}" "include/" "external/liquid/include/"
-          "swig/" "${Python_NumPy_INCLUDE_DIRS}")
-set_property(
-  TARGET liquidswigpython
-  PROPERTY SWIG_INCLUDE_DIRECTORIES "${Python_INCLUDE_DIRS}" "include/"
-           "external/liquid/include" "swig/" "${Python_NumPy_INCLUDE_DIRS}")
+  liquidswigpython PUBLIC "${Python_INCLUDE_DIRS}"
+                          "${Python_NumPy_INCLUDE_DIRS}")
+set_property(TARGET liquidswigpython PROPERTY SWIG_INCLUDE_DIRECTORIES "swig/")
 set_property(TARGET liquidswigpython PROPERTY SWIG_COMPILE_OPTIONS "-py3")
 set_property(TARGET liquidswigpython PROPERTY SWIG_MODULE_NAME "liquid")
 
@@ -63,3 +62,5 @@ execute_process(
     "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
   OUTPUT_VARIABLE PYTHON_SITE_PACKAGES
   OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+message(STATUS ${PYTHON_SITE_PACKAGES})
