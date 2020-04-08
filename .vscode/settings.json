@@ -1,0 +1,33 @@
+{
+  "cmake.buildDirectory": "${workspaceRoot}/build/${buildType}",
+  "cmake.sourceDirectory": "${workspaceFolder}",
+  "cmake.configureOnOpen": false,
+  "files.associations": {
+    "*.html": "html",
+    "**/templates/*.html": "html",
+    "**/templates/*": "django-txt",
+    "**/requirements{/**,*}.{txt,in}": "pip-requirements",
+    "*.pdf_tex": "latex",
+    "autotest.h": "c",
+    "inttypes.h": "c",
+    "iostream": "cpp",
+    "*.h.in": "cpp",
+    "config.h.cmake": "c",
+    "emmintrin.h": "c",
+    "liquid.h": "c",
+    "liquid.swig.h": "c",
+    "complex.h": "c",
+    "complex": "c",
+    "ccomplex": "c",
+    "*.i": "c",
+    "*.c": "c",
+    "*.h": "h"
+  },
+  "[c]": {
+    "editor.formatOnSave": false
+  },
+  "[cmake]": {
+    "editor.rulers": [80]
+},
+"python.pythonPath": "D:\\Programas\\Miniconda\\envs\\extension-dev37\\python.exe"
+}
