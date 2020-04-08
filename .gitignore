@@ -234,6 +234,9 @@ dmypy.json
 # End of https://www.gitignore.io/api/c,git,c++,code,cmake,python,jupyternotebooks
 
 # Except libliquid objects
-!external/liquid/libliquid.dll.a
-!external/liquid/libliquid.dll
-!external/liquid/libliquid.lib
+!external/liquid/win64gcc/libliquid.dll.a
+!external/liquid/win64gcc/libliquid.dll
+!external/liquid/win64gcc/libliquid.lib
+
+# Ignore scrap folder
+scrap/

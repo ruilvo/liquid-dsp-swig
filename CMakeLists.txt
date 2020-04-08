@@ -9,7 +9,7 @@ project(
   VERSION 0.1
   DESCRIPTION "Digital Signal Processing library for Software-Defined Radio"
   HOMEPAGE_URL "https://liquidsdr.org/"
-  LANGUAGES C CXX)
+  LANGUAGES C)
 
 include(FindPackageHandleStandardArgs)
 
@@ -24,26 +24,35 @@ include(UseSWIG)
 
 find_package(Python COMPONENTS Interpreter Development)
 
+# Import already compiled libliquid. Yes Windows only, I'll deal with it later
 add_library(libliquid SHARED IMPORTED)
 set_property(
-  TARGET libliquid PROPERTY IMPORTED_LOCATION
-                            "${CMAKE_SOURCE_DIR}/external/liquid/libliquid.dll")
+  TARGET libliquid
+  PROPERTY IMPORTED_LOCATION
+           "${CMAKE_SOURCE_DIR}/external/liquid/win64gcc/libliquid.dll")
 set_property(
-  TARGET libliquid PROPERTY IMPORTED_IMPLIB
-                            "${CMAKE_SOURCE_DIR}/external/liquid/libliquid.lib")
+  TARGET libliquid
+  PROPERTY IMPORTED_IMPLIB
+           "${CMAKE_SOURCE_DIR}/external/liquid/win64gcc/libliquid.lib")
 set_property(
   TARGET libliquid
   PROPERTY PUBLIC_HEADER "${CMAKE_SOURCE_DIR}/external/liquid/include/liquid.h")
 
-swig_add_library(liquidswigpython LANGUAGE python SOURCES "src/libliquid.i")
-target_link_libraries(liquidswigpython PUBLIC "${Python_LIBRARIES}" "libliquid")
+# A library for extra functions that I decide to define
+add_library(liquidbindings STATIC "src/liquidbindings.c")
+target_include_directories(liquidbindings PUBLIC "include/")
+
+# SWIG library to generate bindings
+swig_add_library(liquidswigpython LANGUAGE python SOURCES "swig/libliquid.i")
+target_link_libraries(liquidswigpython PUBLIC "${Python_LIBRARIES}" libliquid
+                                              liquidbindings)
 target_include_directories(
-  liquidswigpython PRIVATE "${Python_INCLUDE_DIRS}" "include"
-                           "external/liquid/include" "src/")
+  liquidswigpython PRIVATE "${Python_INCLUDE_DIRS}" "include/"
+                           "external/liquid/include/" "swig/")
 set_property(
   TARGET liquidswigpython
-  PROPERTY SWIG_INCLUDE_DIRECTORIES "${Python_INCLUDE_DIRS}" "include"
-           "external/liquid/include")
+  PROPERTY SWIG_INCLUDE_DIRECTORIES "${Python_INCLUDE_DIRS}" "include/"
+           "external/liquid/include" "swig/")
 set_property(TARGET liquidswigpython PROPERTY SWIG_COMPILE_OPTIONS "-py3")
 set_property(TARGET liquidswigpython PROPERTY SWIG_MODULE_NAME "liquid")
 
