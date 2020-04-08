@@ -9,7 +9,7 @@ project(
   VERSION 0.1
   DESCRIPTION "Digital Signal Processing library for Software-Defined Radio"
   HOMEPAGE_URL "https://liquidsdr.org/"
-  LANGUAGES C)
+  LANGUAGES C CXX)
 
 include(FindPackageHandleStandardArgs)
 
@@ -39,7 +39,7 @@ set_property(
   PROPERTY PUBLIC_HEADER "${CMAKE_SOURCE_DIR}/external/liquid/include/liquid.h")
 
 # A library for extra functions that I decide to define
-add_library(liquidbindings STATIC "src/liquidbindings.c")
+add_library(liquidbindings STATIC "src/liquidbindings.cpp")
 target_include_directories(liquidbindings PUBLIC "include/")
 
 # SWIG library to generate bindings
