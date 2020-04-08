@@ -47,9 +47,8 @@
 {
   npy_intp size[1] = { -1 };
   array = obj_to_array_contiguous_allow_conversion($input,
-                                                // I wish I knew there the
-                                                // typecode table is.
-                                                   14, // int typecode
+                                                   // int typecode, np.typecodes
+                                                   'F',
                                                    &is_new_object);
   if (!array || !require_dimensions(array, 1) ||
       !require_size(array, size, 1)) SWIG_fail;
