@@ -47,7 +47,6 @@
 {
   npy_intp size[1] = { -1 };
   array = obj_to_array_contiguous_allow_conversion($input,
-                                                   // int typecode, np.typecodes
                                                    'F',
                                                    &is_new_object);
   if (!array || !require_dimensions(array, 1) ||
@@ -60,4 +59,39 @@
 {
   if (is_new_object$argnum && array$argnum)
     { Py_DECREF(array$argnum); }
+}
+
+// ------------
+%typemap(in,numinputs=1,
+         fragment="NumPy_Fragments")
+  (unsigned int *INPUT, unsigned int INSIZE, liquid_float_complex *_output)
+  (PyArrayObject* inarray=NULL, int is_in_new_object=0, PyObject* outarray = NULL)
+{
+    // First, deal with the input array
+    npy_intp insize[1] = { -1 };
+    inarray = obj_to_array_contiguous_allow_conversion($input,
+                                                   // int typecode, np.typecodes
+                                                   'I',
+                                                   &is_in_new_object);
+    if (!inarray || !require_dimensions(inarray, 1) ||
+      !require_size(inarray, insize, 1)) SWIG_fail;
+    $1 = (unsigned int*) array_data(inarray);
+    unsigned int arrsize = (unsigned int) array_size(inarray,0);
+    $2 = arrsize;
+    // Now deal with the output array
+    npy_intp outdims[1];
+    outdims[0] = (npy_intp) arrsize;
+    outarray = PyArray_SimpleNew(1, outdims, 'F');
+    if (!outarray) SWIG_fail;
+    $3 = (liquid_float_complex*) array_data(outarray);
+}
+
+%typemap(argout)
+  (unsigned int *INPUT, unsigned int INSIZE, liquid_float_complex *_output)
+{
+  // Release inarray
+  if (is_in_new_object$argnum && inarray$argnum)
+    { Py_DECREF(inarray$argnum); }
+  // Return and deal with outarray
+  $result = SWIG_Python_AppendOutput($result,(PyObject*)outarray$argnum);
 }

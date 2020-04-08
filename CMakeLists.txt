@@ -9,7 +9,7 @@ project(
   VERSION 0.1
   DESCRIPTION "Digital Signal Processing library for Software-Defined Radio"
   HOMEPAGE_URL "https://liquidsdr.org/"
-  LANGUAGES C CXX)
+  LANGUAGES C)
 
 include(FindPackageHandleStandardArgs)
 
@@ -41,7 +41,7 @@ target_include_directories(
   libliquid INTERFACE "${CMAKE_SOURCE_DIR}/external/liquid/include/")
 
 # A library for extra functions that I decide to define
-add_library(liquidbindings STATIC "src/liquidbindings.cpp")
+add_library(liquidbindings STATIC "src/liquidbindings.c")
 target_include_directories(liquidbindings PUBLIC "include/")
 target_link_libraries(liquidbindings PRIVATE libliquid)
 

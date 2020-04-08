@@ -4,6 +4,7 @@
 /* Includes the header in the wrapper code */
 #define SWIG_FILE_WITH_INIT
 #include "liquid.h"
+#include "liquidbindings.h"
 %}
 
 // Activate autodoctrings
@@ -23,6 +24,9 @@ import_array();
 
 // Now go module by module
 %include "modules/modem.i"
+
+// Get also whatever I did myself
+%include "liquidbindings/liquidbindings.i"
 
 // This is my test function
 void crandnf(liquid_float_complex *ARGOUT);

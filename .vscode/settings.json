@@ -21,8 +21,12 @@
     "ccomplex": "c",
     "*.i": "c",
     "*.c": "c",
-    "*.h": "h"
-  },
+    "*.h": "h",
+    "array": "c",
+    "string_view": "c",
+    "initializer_list": "c",
+    "utility": "c"
+},
   "[c]": {
     "editor.formatOnSave": false
   },
