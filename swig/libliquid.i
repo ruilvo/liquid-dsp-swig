@@ -2,6 +2,7 @@
 
 %{
 /* Includes the header in the wrapper code */
+#define SWIG_FILE_WITH_INIT
 #include "liquid.h"
 %}
 
@@ -10,6 +11,12 @@
 
 // Typemaps
 %include "typemaps.i"
+
+%include "numpy.i"
+%init %{
+import_array();
+%}
+
 %include "liquidtypemaps.i"
 
 // Now that typemaps are loaded, we can use them

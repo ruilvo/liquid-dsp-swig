@@ -55,7 +55,7 @@ typedef enum {
 typedef struct modem_s *modem;
 
 modem modem_create(modulation_scheme _scheme);
-// modem modem_create_arbitrary(liquid_float_complex *_table, unsigned int _M);
+modem modem_create_arbitrary(liquid_float_complex *INPUT, unsigned int INSIZE);
 modem modem_recreate(modem _q, modulation_scheme _scheme);
 void modem_destroy(modem _q);
 void modem_print(modem _q);

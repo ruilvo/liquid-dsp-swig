@@ -38,3 +38,25 @@
     /* Now recover the temp thing and return it. */
     $result = PyComplex_FromDoubles(creal(*$1), cimag(*$1));
 }
+
+// Typemaps using numpy
+%typemap(in,
+         fragment="NumPy_Fragments")
+  (liquid_float_complex *INPUT, unsigned int INSIZE)
+  (PyArrayObject* array=NULL, int is_new_object=0)
+{
+  npy_intp size[1] = { -1 };
+  array = obj_to_array_contiguous_allow_conversion($input,
+                                                   14,
+                                                   &is_new_object);
+  if (!array || !require_dimensions(array, 1) ||
+      !require_size(array, size, 1)) SWIG_fail;
+  $1 = (liquid_float_complex*) array_data(array);
+  $2 = (unsigned int) array_size(array,0);
+}
+%typemap(freearg)
+  (liquid_float_complex *INPUT, unsigned int INSIZE)
+{
+  if (is_new_object$argnum && array$argnum)
+    { Py_DECREF(array$argnum); }
+}
