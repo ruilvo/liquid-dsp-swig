@@ -22,7 +22,7 @@ endif()
 find_package(SWIG)
 include(UseSWIG)
 
-find_package(Python COMPONENTS Interpreter Development)
+find_package(Python COMPONENTS Interpreter Development NumPy)
 
 # Import already compiled libliquid. Yes Windows only, I'll deal with it later
 add_library(libliquid SHARED IMPORTED)
@@ -44,15 +44,16 @@ target_include_directories(liquidbindings PUBLIC "include/")
 
 # SWIG library to generate bindings
 swig_add_library(liquidswigpython LANGUAGE python SOURCES "swig/libliquid.i")
-target_link_libraries(liquidswigpython PUBLIC "${Python_LIBRARIES}" libliquid
-                                              liquidbindings)
+target_link_libraries(liquidswigpython PUBLIC Python::Module Python::NumPy
+                                              libliquid liquidbindings)
 target_include_directories(
-  liquidswigpython PRIVATE "${Python_INCLUDE_DIRS}" "include/"
-                           "external/liquid/include/" "swig/")
+  liquidswigpython
+  PRIVATE "${Python_INCLUDE_DIRS}" "include/" "external/liquid/include/"
+          "swig/" "${Python_NumPy_INCLUDE_DIRS}")
 set_property(
   TARGET liquidswigpython
   PROPERTY SWIG_INCLUDE_DIRECTORIES "${Python_INCLUDE_DIRS}" "include/"
-           "external/liquid/include" "swig/")
+           "external/liquid/include" "swig/" "${Python_NumPy_INCLUDE_DIRS}")
 set_property(TARGET liquidswigpython PROPERTY SWIG_COMPILE_OPTIONS "-py3")
 set_property(TARGET liquidswigpython PROPERTY SWIG_MODULE_NAME "liquid")
 
