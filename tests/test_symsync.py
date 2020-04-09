@@ -60,19 +60,20 @@ plt.scatter(
     label="First half of symbols",
 )
 plt.scatter(
-    np.real(y[midpoint:]),
-    np.imag(y[midpoint:]),
+    np.real(y[midpoint : int(ny)]),
+    np.imag(y[midpoint : int(ny)]),
     marker="o",
     label="Last half of symbols",
 )
+plt.legend()
 plt.xlabel("I")
 plt.xlabel("Q")
 
 fig, axs = plt.subplots(2, sharex=True)
-fig.suptitle("Vertically stacked subplots")
-axs[0].plot(y.real)
+fig.suptitle("Recovered constellation")
+axs[0].plot(y.real[: int(ny)])
 axs[0].set_xlabel("I recovered")
-axs[1].plot(y.imag)
+axs[1].plot(y.imag[: int(ny)])
 axs[1].set_xlabel("Q recovered")
 
 plt.show()
