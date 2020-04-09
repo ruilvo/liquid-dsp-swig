@@ -41,6 +41,7 @@ target_include_directories(
   libliquid INTERFACE "${CMAKE_SOURCE_DIR}/external/liquid/include/")
 
 # A library for extra functions that I decide to define
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 add_library(liquidbindings STATIC "src/liquidbindings.cpp")
 target_include_directories(liquidbindings PUBLIC "include/")
 target_link_libraries(liquidbindings PRIVATE libliquid)

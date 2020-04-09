@@ -2,6 +2,8 @@
 See that the bulk modulator is working.
 """
 
+import functools
+import time
 import numpy as np
 import liquid
 
@@ -21,3 +23,36 @@ array([ 0.70710677+0.70710677j, -0.70710677+0.70710677j,
        -0.70710677+0.70710677j,  0.70710677-0.70710677j,
        -0.70710677-0.70710677j, -0.70710677+0.70710677j], dtype=complex64)
 """
+
+# Now do an actual test
+def timer(func):
+    @functools.wraps(func)
+    def wrapper_timer(*args, **kwargs):
+        tic = time.perf_counter()
+        value = func(*args, **kwargs)
+        toc = time.perf_counter()
+        elapsed_time = toc - tic
+        print(f"Elapsed time: {elapsed_time:0.4f} seconds")
+        return value
+
+    return wrapper_timer
+
+
+@timer
+def modulate_some_data(modem, data):
+    """Uses modem_modulate_bulk"""
+    return liquid.modem_modulate_bulk(modem, data)
+
+
+# I'm curious to see how it compares between numpy and liquid
+@timer
+def generate_some_data(n):
+    """Uses modem_modulate_bulk"""
+    return np.random.randint(0, 4, int(n), dtype=np.uint32)
+
+
+n = 1e6
+print(f"Generating the data = {n:.2e} symbols, using numpy...")
+massive_data = generate_some_data(n)
+print(f"Modulating the data = {n:.2e} symbols, using liquid...")
+modout = modulate_some_data(mod, massive_data)

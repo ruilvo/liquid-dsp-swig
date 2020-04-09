@@ -240,3 +240,6 @@ dmypy.json
 
 # Ignore scrap folder
 scrap/
+
+# Ignore releases folder
+releases/
