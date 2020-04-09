@@ -101,3 +101,35 @@
     // Return and deal with outarray
     $result = SWIG_Python_AppendOutput($result, (PyObject *)outarray$argnum);
 }
+
+// Other typemaps
+%typemap(in,numinputs=1,
+         fragment="NumPy_Fragments")
+  (liquid_float_complex *OUTPUT, unsigned int *IOUT)
+  (PyObject* array = NULL)
+{
+  npy_intp dims[1];
+  if (!PyInt_Check($input))
+  {
+    const char* typestring = pytype_string($input);
+    PyErr_Format(PyExc_TypeError,
+                 "Int dimension expected.  '%s' given.",
+                 typestring);
+    SWIG_fail;
+  }
+  $2 = (unsigned int*) &($input);
+  dims[0] = (npy_intp) $input;
+  array = PyArray_SimpleNew(1, dims, 'F');
+  if (!array) SWIG_fail;
+  $1 = (liquid_float_complex*) array_data(array);
+}
+%typemap(out)
+  (liquid_float_complex *OUTPUT, unsigned int *IOUT)
+{
+    $result = *IOUT;
+}
+%typemap(argout)
+  (liquid_float_complex *OUTPUT, unsigned int *IOUT)
+{
+  $result = SWIG_Python_AppendOutput($result,(PyObject*)(array$argnum));
+}
