@@ -1,4 +1,4 @@
-#include "liquidbindings.h"
+#include "liquidbindings.hpp"
 
 void modem_modulate_bulk(modem _q,
                          unsigned int *_symbols,
