@@ -23,7 +23,6 @@ void symsync_crcf_set_lf_bw(symsync_crcf _q, float _bt);
 
 // This is the only complicated one
 %apply (liquid_float_complex *INPUT, unsigned int INSIZE) { (liquid_float_complex *_x, unsigned int _nx) };
-%apply (liquid_float_complex *OUTPUT, unsigned int *IOUT) { (liquid_float_complex *_y, unsigned int *_ny) };
 void symsync_crcf_execute(symsync_crcf _q, liquid_float_complex *_x,
                           unsigned int _nx, liquid_float_complex *_y,
                           unsigned int *_ny);
