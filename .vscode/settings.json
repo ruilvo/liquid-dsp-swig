@@ -21,7 +21,7 @@
     "ccomplex": "c",
     "*.i": "c",
     "*.c": "c",
-    "*.h": "h",
+    "*.h": "c",
     "array": "c",
     "string_view": "c",
     "initializer_list": "c",
@@ -33,8 +33,8 @@
     "unordered_map": "c",
     "vector": "c",
     "system_error": "c",
-    "*.h": "c"
-  },
+    "tuple": "c"
+},
   "[c]": {
     "editor.formatOnSave": false
   },

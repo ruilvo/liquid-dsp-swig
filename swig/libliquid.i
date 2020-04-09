@@ -27,6 +27,7 @@ import_array();
 %include "modules/modem.i"
 %include "modules/symsinc.i"
 %include "modules/firfilt.i"
+%include "modules/firinterp.i"
 
 // Get also whatever I did myself
 %include "liquidbindings/liquidbindings.i"

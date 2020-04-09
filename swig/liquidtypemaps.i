@@ -102,34 +102,31 @@
     $result = SWIG_Python_AppendOutput($result, (PyObject *)outarray$argnum);
 }
 
-// Other typemaps
-%typemap(in,numinputs=1,
+// Typemap for inplace arrays
+// UNSAFE because I removed the typecheck
+%typemap(in,
          fragment="NumPy_Fragments")
-  (liquid_float_complex *OUTPUT, unsigned int *IOUT)
-  (PyObject* array = NULL)
+  (liquid_float_complex * INPLACE_ARRAY1, unsigned int * DIM1)
+  (PyArrayObject* array=NULL, unsigned int arrsize=1)
 {
-  npy_intp dims[1];
-  if (!PyInt_Check($input))
-  {
-    const char* typestring = pytype_string($input);
-    PyErr_Format(PyExc_TypeError,
-                 "Int dimension expected.  '%s' given.",
-                 typestring);
-    SWIG_fail;
-  }
-  $2 = (unsigned int*) &($input);
-  dims[0] = (npy_intp) $input;
-  array = PyArray_SimpleNew(1, dims, 'F');
-  if (!array) SWIG_fail;
+  array = obj_to_array_no_conversion($input, 'F');
+  if (!array || !require_dimensions(array,1) || !require_contiguous(array)
+      || !require_native(array)) SWIG_fail;
   $1 = (liquid_float_complex*) array_data(array);
+  $2 = &arrsize;
 }
-%typemap(out)
-  (liquid_float_complex *OUTPUT, unsigned int *IOUT)
+%typemap(argout)(liquid_float_complex * INPLACE_ARRAY1, unsigned int * DIM1)
 {
-    $result = *IOUT;
+    $result = PyFloat_FromDouble((double)arrsize$argnum);
 }
-%typemap(argout)
-  (liquid_float_complex *OUTPUT, unsigned int *IOUT)
+
+%typemap(in,
+         fragment="NumPy_Fragments")
+  (liquid_float_complex *INPLACE_ARRAY2)
+  (PyArrayObject* array=NULL)
 {
-  $result = SWIG_Python_AppendOutput($result,(PyObject*)(array$argnum));
+  array = obj_to_array_no_conversion($input, 'F');
+  if (!array || !require_dimensions(array,1) ||
+      !require_contiguous(array) || !require_native(array)) SWIG_fail;
+  $1 = (liquid_float_complex*) array_data(array);
 }
