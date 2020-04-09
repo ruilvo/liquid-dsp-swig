@@ -9,7 +9,7 @@ project(
   VERSION 0.1
   DESCRIPTION "Digital Signal Processing library for Software-Defined Radio"
   HOMEPAGE_URL "https://liquidsdr.org/"
-  LANGUAGES C CXX)
+  LANGUAGES C)
 
 include(FindPackageHandleStandardArgs)
 
@@ -41,13 +41,13 @@ target_include_directories(
   libliquid INTERFACE "${CMAKE_SOURCE_DIR}/external/liquid/include/")
 
 # A library for extra functions that I decide to define
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-add_library(liquidbindings STATIC "src/liquidbindings.cpp")
+set(CMAKE_C_FLAGS_RELEASE "-O3")
+add_library(liquidbindings STATIC "src/liquidbindings.c")
 target_include_directories(liquidbindings PUBLIC "include/")
 target_link_libraries(liquidbindings PRIVATE libliquid)
 
 # SWIG library to generate bindings
-set_property(SOURCE "swig/libliquid.i" PROPERTY CPLUSPLUS ON)
+set_property(SOURCE "swig/libliquid.i" PROPERTY CPLUSPLUS OFF)
 swig_add_library(liquidswigpython LANGUAGE python SOURCES "swig/libliquid.i")
 target_link_libraries(liquidswigpython PUBLIC Python::Module Python::NumPy
                                               libliquid liquidbindings)
@@ -55,8 +55,7 @@ target_include_directories(
   liquidswigpython PUBLIC "${Python_INCLUDE_DIRS}"
                           "${Python_NumPy_INCLUDE_DIRS}")
 set_property(TARGET liquidswigpython PROPERTY SWIG_INCLUDE_DIRECTORIES "swig/")
-set_property(TARGET liquidswigpython PROPERTY SWIG_COMPILE_OPTIONS "-py3"
-                                              "-c++")
+set_property(TARGET liquidswigpython PROPERTY SWIG_COMPILE_OPTIONS "-py3")
 set_property(TARGET liquidswigpython PROPERTY SWIG_MODULE_NAME "liquid")
 
 execute_process(

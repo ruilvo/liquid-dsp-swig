@@ -55,17 +55,33 @@ typedef enum {
 typedef struct modem_s *modem;
 
 modem modem_create(modulation_scheme _scheme);
-modem modem_create_arbitrary(liquid_float_complex *INPUT, unsigned int INSIZE);
 modem modem_recreate(modem _q, modulation_scheme _scheme);
+
+modulation_scheme modem_get_scheme(modem _q);
+
 void modem_destroy(modem _q);
 void modem_print(modem _q);
 void modem_reset(modem _q);
 unsigned int modem_gen_rand_sym(modem _q);
 unsigned int modem_get_bps(modem _q);
-modulation_scheme modem_get_scheme(modem _q);
-void modem_modulate(modem _q, unsigned int _s, liquid_float_complex *ARGOUT);
-void modem_demodulate(modem _q, liquid_float_complex _x, unsigned int *OUTPUT);
-// void modem_demodulate_soft(modem _q, liquid_float_complex _x, unsigned int *_s, unsigned char *_soft_bits);
-void modem_get_demodulator_sample(modem _q, liquid_float_complex *ARGOUT);
 float modem_get_demodulator_phase_error(modem _q);
 float modem_get_demodulator_evm(modem _q);
+
+%apply (liquid_float_complex *INPUT, unsigned int INSIZE) { (liquid_float_complex * _table, unsigned int _M) };
+modem modem_create_arbitrary(liquid_float_complex * _table, unsigned int _M);
+%clear (liquid_float_complex * _table, unsigned int _M);
+
+%apply (liquid_float_complex *ARGOUT) { liquid_float_complex * _x_hat};
+void modem_get_demodulator_sample(modem _q, liquid_float_complex * _x_hat);
+%clear (liquid_float_complex * _x_hat);
+
+%apply (liquid_float_complex *ARGOUT)  { liquid_float_complex *_y };
+void modem_modulate(modem _q, unsigned int _s, liquid_float_complex * _y);
+%clear (liquid_float_complex *_y);
+
+%apply (unsigned int *OUTPUT) { unsigned int *_s };
+void modem_demodulate(modem _q, liquid_float_complex _x, unsigned int *_s);
+%clear (unsigned int *_s);
+
+// void modem_demodulate_soft(modem _q, liquid_float_complex _x, unsigned int *_s,
+// unsigned char *_soft_bits);

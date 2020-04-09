@@ -27,7 +27,12 @@
     "initializer_list": "c",
     "utility": "c",
     "random": "c",
-    "*.tcc": "c"
+    "*.tcc": "c",
+    "deque": "c",
+    "string": "c",
+    "unordered_map": "c",
+    "vector": "c",
+    "system_error": "c"
 },
   "[c]": {
     "editor.formatOnSave": false

@@ -1,8 +1,6 @@
 #ifndef __LIQUIDBINDINGS_H__
 #define __LIQUIDBINDINGS_H__
 
-#include <complex>
-#include <algorithm>
 #include "liquid.h"
 
 void modem_modulate_bulk(modem _q,
