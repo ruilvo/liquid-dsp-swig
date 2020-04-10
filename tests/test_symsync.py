@@ -59,23 +59,7 @@ y = y[:ny]
 # And save before the equalization
 y_before_eq = y
 
-# %% Equalization
-# Now the equalizer
-# Create the equalizer and necessary arrays
-d_hat = np.zeros_like(y)
-w = np.zeros(p, dtype=np.complex64)
-
-eq = liquid.eqrls_cccf_create(p)
-liquid.eqrls_cccf_train(eq, w, y, d, ntrain)  # Run equalizer
-
-# Create filter from equalizer output
-feq = liquid.firfilt_cccf_create(w)
-
-# And execute
-liquid.firfilt_cccf_execute_block(feq, y, d_hat)
-
-
-# And plot the same plots as the examples
+# %% Plot the same plots as the examples
 midpoint = int(0.5 * ny)
 
 plt.figure(1)
@@ -113,4 +97,6 @@ plt.scatter(
 plt.colorbar(label="Iteration")
 ax = plt.gca()
 
+
+# %% And display results
 plt.show()
