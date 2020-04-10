@@ -243,3 +243,6 @@ scrap/
 
 # Ignore releases folder
 releases/
+
+# Ignore personal config script
+configure.bat
