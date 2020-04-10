@@ -42,15 +42,15 @@ target_include_directories(
 
 # A library for extra functions that I decide to define
 set(CMAKE_C_FLAGS_RELEASE "-O3")
-add_library(liquidbindings STATIC "src/liquidbindings.c")
-target_include_directories(liquidbindings PUBLIC "include/")
-target_link_libraries(liquidbindings PRIVATE libliquid)
+add_library(liquidextras STATIC "src/liquidextras.c")
+target_include_directories(liquidextras PUBLIC "include/")
+target_link_libraries(liquidextras PRIVATE libliquid)
 
 # SWIG library to generate bindings
 set_property(SOURCE "swig/libliquid.i" PROPERTY CPLUSPLUS OFF)
 swig_add_library(liquidswigpython LANGUAGE python SOURCES "swig/libliquid.i")
 target_link_libraries(liquidswigpython PUBLIC Python::Module Python::NumPy
-                                              libliquid liquidbindings)
+                                              libliquid liquidextras)
 target_include_directories(
   liquidswigpython PUBLIC "${Python_INCLUDE_DIRS}"
                           "${Python_NumPy_INCLUDE_DIRS}")

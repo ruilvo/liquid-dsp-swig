@@ -1,6 +1,6 @@
-#include "liquidbindings.h"
+#include "liquidextras.h"
 
-void modem_modulate_bulk(modem _q,
+void modem_modulate_block(modem _q,
                          unsigned int *_symbols,
                          unsigned int _s_size,
                          liquid_float_complex *_output)

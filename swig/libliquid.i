@@ -5,7 +5,7 @@
 #define SWIG_FILE_WITH_INIT
 
 /* And of course the headers we need */
-#include "liquidbindings.h"
+#include "liquidextras.h"
 %}
 
 // Activate autodoctrings
@@ -14,12 +14,12 @@
 // Typemaps
 %include "typemaps.i"
 
-%include "numpy.i"
+%include "typemaps/numpy.i"
 %init %{
 import_array();
 %}
 
-%include "liquidtypemaps.i"
+%include "typemaps/liquidtypemaps.i"
 
 // Now that typemaps are loaded, we can use them
 
@@ -30,7 +30,7 @@ import_array();
 %include "modules/firinterp.i"
 
 // Get also whatever I did myself
-%include "liquidbindings/liquidbindings.i"
+%include "liquidextras/liquidextras.i"
 
 // This is my test function
 void crandnf(liquid_float_complex *ARGOUT);
