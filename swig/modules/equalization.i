@@ -69,17 +69,15 @@ void eqlms_cccf_get_weights(eqlms_cccf _q, liquid_float_complex *_w);
 /*  _d      :   desired output vector, [size: _n x 1]                   */
 /*  _n      :   input, output vector length                             */
 %apply (liquid_float_complex *INPLACE_ARRAY1_NODIM)
-       {(liquid_float_complex *_w), (liquid_float_complex *_x) };
-%apply (liquid_float_complex * INPLACE_ARRAY1, unsigned int DIM1)
-       { (liquid_float_complex *_d, unsigned int _n) };
+       {(liquid_float_complex *_w), (liquid_float_complex *_x),
+        (liquid_float_complex *_d) };
 void eqrls_cccf_train(eqrls_cccf _q, liquid_float_complex *_w,
                       liquid_float_complex *_x, liquid_float_complex *_d,
                       unsigned int _n);
 void eqlms_cccf_train(eqlms_cccf _q, liquid_float_complex *_w,
                       liquid_float_complex *_x, liquid_float_complex *_d,
                       unsigned int _n);
-%clear (liquid_float_complex *_w), (liquid_float_complex *_x);
-%clear (liquid_float_complex *_d, unsigned int _n);
+%clear (liquid_float_complex *_w), (liquid_float_complex *_x), (liquid_float_complex *_d);
 
 
 /* Re-create EQ initialized with external coefficients                  */

@@ -9,7 +9,7 @@ i.e., you only need to provide the input array and it gives you the output array
     (PyArrayObject *inarray = NULL, int is_in_new_object = 0, PyObject *outarray = NULL)
 {
     // First, deal with the input array, uses inplace
-    inarray = obj_to_array_no_conversion($input, 'F');
+    inarray = obj_to_array_no_conversion($input, 'I');
     if (!inarray || !require_dimensions(inarray,1) || !require_contiguous(inarray)
       || !require_native(inarray)) SWIG_fail;
     $1 = (unsigned int *)array_data(inarray);
