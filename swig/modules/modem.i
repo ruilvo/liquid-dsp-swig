@@ -49,11 +49,12 @@ typedef enum {
     LIQUID_MODEM_ARB        // arbitrary QAM
 } modulation_scheme;
 
+// Python needs this to make a default destructor
+typedef struct modem_s *modem;
 
 // Functions to pass through
 
-typedef struct modem_s *modem;
-
+// The trivial ones
 modem modem_create(modulation_scheme _scheme);
 modem modem_recreate(modem _q, modulation_scheme _scheme);
 
@@ -62,8 +63,10 @@ modulation_scheme modem_get_scheme(modem _q);
 void modem_destroy(modem _q);
 void modem_print(modem _q);
 void modem_reset(modem _q);
+
 unsigned int modem_gen_rand_sym(modem _q);
 unsigned int modem_get_bps(modem _q);
+
 float modem_get_demodulator_phase_error(modem _q);
 float modem_get_demodulator_evm(modem _q);
 
@@ -71,11 +74,11 @@ float modem_get_demodulator_evm(modem _q);
 modem modem_create_arbitrary(liquid_float_complex * _table, unsigned int _M);
 %clear (liquid_float_complex * _table, unsigned int _M);
 
-%apply (liquid_float_complex *ARGOUT) { liquid_float_complex * _x_hat};
+%apply (liquid_float_complex *SINGARGOUT) { liquid_float_complex * _x_hat};
 void modem_get_demodulator_sample(modem _q, liquid_float_complex * _x_hat);
 %clear (liquid_float_complex * _x_hat);
 
-%apply (liquid_float_complex *ARGOUT)  { liquid_float_complex *_y };
+%apply (liquid_float_complex *SINGARGOUT)  { liquid_float_complex *_y };
 void modem_modulate(modem _q, unsigned int _s, liquid_float_complex * _y);
 %clear (liquid_float_complex *_y);
 

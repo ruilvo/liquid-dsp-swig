@@ -4,9 +4,9 @@
 
 import numpy as np
 import numpy.random as rnd
-import liquid
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import liquid
 
 # Try to mimic
 # https://github.com/jgaeddert/liquid-dsp/blob/master/examples/symsync_crcf_example.c
@@ -49,7 +49,7 @@ liquid.symsync_crcf_set_lf_bw(sync, bandwidth)
 # And execute
 y = np.zeros(num_symbols + 64, dtype=np.complex64)  # Open space for them
 ny = liquid.symsync_crcf_execute(sync, x, y)
-ny = int(ny)
+y = y[:ny]
 
 # And plot the same plots
 midpoint = int(0.5 * ny)

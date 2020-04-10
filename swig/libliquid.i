@@ -28,6 +28,7 @@ import_array();
 %include "modules/symsinc.i"
 %include "modules/firfilt.i"
 %include "modules/firinterp.i"
+%include "modules/equalization.i"
 
 // Get also whatever I did myself
 %include "liquidextras/liquidextras.i"
