@@ -15,5 +15,5 @@ MSVC's lib.exe with VS2019.
 I decided to separate this from my CMake port because here I add also a custom
 library to add my own functions (read
 [test_modulate_bulk.py](https://github.com/ruilvo/liquid-dsp-swig/blob/master/tests/test_modulate_bulk.py))
-and check out the [C++ (yes, I use C++ deal with it) file that defines
-it](https://github.com/ruilvo/liquid-dsp-swig/blob/master/src/liquidbindings.cpp).
+and check out the [C file that defines
+it](https://github.com/ruilvo/liquid-dsp-swig/blob/master/src/liquidbindings.c).
