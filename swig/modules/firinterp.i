@@ -12,8 +12,7 @@ void firinterp_crcf_destroy(firinterp_crcf _q);
 /*  _q      : firinterp object                                          */
 /*  _x      : input sample                                              */
 /*  _y      : output sample array, [size: _M x 1]                       */
-%apply (liquid_float_complex INPUT) { liquid_float_complex _x };
-%apply (liquid_float_complex *INPLACE_ARRAY1_NODIM) { liquid_float_complex *_y };
+%apply (liquid_float_complex* IN_ARRAY1) { liquid_float_complex *_y };
 void firinterp_crcf_execute(firinterp_crcf _q, liquid_float_complex _x,
                         liquid_float_complex *_y);
 %clear (liquid_float_complex _x);
@@ -25,10 +24,10 @@ void firinterp_crcf_execute(firinterp_crcf _q, liquid_float_complex _x,
 /*  _x      : input array, [size: _n x 1]                               */
 /*  _n      : size of input array                                       */
 /*  _y      : output sample array, [size: _M*_n x 1]                    */
-%apply (liquid_float_complex * INPLACE_ARRAY1, unsigned int DIM1) {
+%apply (liquid_float_complex* IN_ARRAY1, unsigned int DIM1) {
     (liquid_float_complex *_x, unsigned int _n)
 };
-%apply (liquid_float_complex *INPLACE_ARRAY1_NODIM) {
+%apply (liquid_float_complex* INPLACE_ARRAY1) {
     (liquid_float_complex *_y)
 };
 void firinterp_crcf_execute_block(firinterp_crcf _q, liquid_float_complex *_x,

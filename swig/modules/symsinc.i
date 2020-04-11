@@ -19,7 +19,7 @@ symsync_crcf symsync_crcf_create_rnyquist(int _type, unsigned int _k,
                                           unsigned int _M);
 // Ones that require typemaps
 
-%apply (float * INPLACE_ARRAY1_IN, unsigned int DIM1)
+%apply (float * IN_ARRAY1, unsigned int DIM1)
        { (float *_h, unsigned int _h_len) };
 symsync_crcf symsync_crcf_create(unsigned int _k, unsigned int _M, float *_h,
                                  unsigned int _h_len);
@@ -32,10 +32,11 @@ void symsync_crcf_set_lf_bw(symsync_crcf _q, float _bt);
 // This is the only complicated one
 %apply (liquid_float_complex * INPLACE_ARRAY1, unsigned int DIM1)
        { (liquid_float_complex *_x, unsigned int _nx) };
-%apply (liquid_float_complex * INPLACE_ARRAY1, unsigned int * DIM1)
-    { (liquid_float_complex *_y, unsigned int *_ny) };
+%apply (unsigned int *OUTPUT){(unsigned int *_ny)};
+%apply (float complex * INPLACE_ARRAY1) {(liquid_float_complex *_y)};
 void symsync_crcf_execute(symsync_crcf _q, liquid_float_complex *_x,
                           unsigned int _nx, liquid_float_complex *_y,
                           unsigned int *_ny);
 %clear (liquid_float_complex *_x, unsigned int _nx);
-%clear (liquid_float_complex *_y, unsigned int *_ny);
+%clear (unsigned int *_ny);
+%clear (liquid_float_complex *_y);

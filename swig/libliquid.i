@@ -5,6 +5,7 @@
 #define SWIG_FILE_WITH_INIT
 
 /* And of course the headers we need */
+#include "liquid.h"
 #include "liquidextras.h"
 %}
 
@@ -13,13 +14,15 @@
 
 // Typemaps
 %include "typemaps.i"
+%include "complex.i"
+%include "carrays.i"
 
 %include "typemaps/numpy.i"
 %init %{
 import_array();
 %}
 
-%include "typemaps/liquidtypemaps.i"
+%include "typemaps/liquid.i"
 
 // Now that typemaps are loaded, we can use them
 
@@ -32,6 +35,3 @@ import_array();
 
 // Get also whatever I did myself
 %include "liquidextras/liquidextras.i"
-
-// This is my test function
-void crandnf(liquid_float_complex *ARGOUT);

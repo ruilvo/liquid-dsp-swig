@@ -54,7 +54,8 @@ firfilt_cccf firfilt_cccf_create_dc_blocker(unsigned int _m, float _As);
 firfilt_cccf firfilt_cccf_create_notch(unsigned int _m, float _As, float _f0);
 
 // Adding the typemaps by copy because I specifically do not want the argout!
-%typemap(in) (liquid_float_complex *_h, unsigned int _n) = (liquid_float_complex * INPLACE_ARRAY1, unsigned int DIM1);
+%apply(float complex* IN_ARRAY1, unsigned int DIM1)
+  {(liquid_float_complex *_h, unsigned int _n)};
 // %apply (liquid_float_complex * INPLACE_ARRAY1, unsigned int DIM1)
 //        { (liquid_float_complex *_h, unsigned int _n) };
 /* Create a finite impulse response filter (firfilt) object by directly */
@@ -72,25 +73,21 @@ firfilt_cccf firfilt_cccf_recreate(firfilt_cccf _q, liquid_float_complex *_h,
                                    unsigned int _n);
 %clear (liquid_float_complex *_h, unsigned int _n);
 
-%apply (liquid_float_complex INPUT) {(liquid_float_complex _scale)};
 void firfilt_cccf_set_scale(firfilt_cccf _q, liquid_float_complex _scale);
-%clear (liquid_float_complex _scale);
 
-%apply (liquid_float_complex *SINGARGOUT) {(liquid_float_complex *_scale)};
+%apply (liquid_float_complex *OUTPUT) {(liquid_float_complex *_scale)};
 void firfilt_cccf_get_scale(firfilt_cccf _q, liquid_float_complex *_scale);
 %clear (liquid_float_complex *_scale);
 
-%apply (liquid_float_complex *SINGARGOUT) {(liquid_float_complex *_y)};
+%apply (liquid_float_complex *OUTPUT) {(liquid_float_complex *_y)};
 void firfilt_cccf_execute(firfilt_cccf _q, liquid_float_complex *_y);
 %clear (liquid_float_complex *_y);
 
-%apply (liquid_float_complex INPUT) {(liquid_float_complex _x)};
 void firfilt_cccf_push(firfilt_cccf _q, liquid_float_complex _x);
-%clear (liquid_float_complex _x);
 
-%apply (liquid_float_complex * INPLACE_ARRAY1, unsigned int DIM1)
+%apply (liquid_float_complex* IN_ARRAY1, unsigned int DIM1)
        { (liquid_float_complex *_x, unsigned int _n) };
-%apply (liquid_float_complex *INPLACE_ARRAY1_NODIM)
+%apply (liquid_float_complex* INPLACE_ARRAY1)
        {(liquid_float_complex *_y)};
 /* Execute the filter on a block of input samples; in-place operation   */
 /* is permitted (_x and _y may point to the same place in memory)       */
@@ -113,7 +110,7 @@ void firfilt_cccf_write(firfilt_cccf _q, liquid_float_complex *_x,
 /*  _q      : filter object                                             */
 /*  _fc     : normalized frequency for evaluation                       */
 /*  _H      : pointer to output complex frequency response              */
-%apply (liquid_float_complex *SINGARGOUT) {(liquid_float_complex *_H)};
+%apply (liquid_float_complex *OUTPUT) {(liquid_float_complex *_H)};
 void firfilt_cccf_freqresponse(firfilt_cccf _q, float _fc,
                                liquid_float_complex *_H);
 %clear (liquid_float_complex *_H);
