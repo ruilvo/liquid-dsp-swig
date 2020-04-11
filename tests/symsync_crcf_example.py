@@ -7,7 +7,6 @@ Simple (incomplete) example of liquid-dsp bindings for Python with SWIG.
 from contextlib import suppress
 import numpy as np
 import numpy.random as rnd
-import scipy.signal as signal
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from build.Release import liquid
@@ -36,7 +35,7 @@ d = rnd.randint(0, 4, num_symbols, dtype=np.uint32)
 s = np.zeros(num_symbols, dtype=np.complex64)
 
 # And modulate
-liquid.modem_modulate_block(mod, d, s)  # Custom function, not available in C-SWIG
+liquid.modem_modulate_block(mod, d, s)  # Custom function, not available in C-liquid
 
 
 # %% Interpolate with band-limiting filter
@@ -74,6 +73,7 @@ ny = liquid.symsync_crcf_execute(sync, x, y)
 # Trim the excess of y
 y = y[:ny]
 
+
 # %% Figures
 plt.figure(1)
 plt.title("Contellation evolution with time")
@@ -89,5 +89,6 @@ plt.plot(y.imag, label="Recovered Q")
 plt.legend()
 
 plt.show()
+
 
 # %% End of the example
