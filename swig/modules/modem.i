@@ -83,8 +83,10 @@ void modem_modulate(modem _q, unsigned int _s, liquid_float_complex * _y);
 %clear (liquid_float_complex *_y);
 
 %apply (unsigned int *OUTPUT) { unsigned int *_s };
+%apply (liquid_float_complex INPUT) { liquid_float_complex _x };
 void modem_demodulate(modem _q, liquid_float_complex _x, unsigned int *_s);
 %clear (unsigned int *_s);
+%clear (liquid_float_complex _x);
 
 // void modem_demodulate_soft(modem _q, liquid_float_complex _x, unsigned int *_s,
 // unsigned char *_soft_bits);

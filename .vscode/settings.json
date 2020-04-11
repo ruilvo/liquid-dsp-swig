@@ -33,8 +33,9 @@
     "unordered_map": "c",
     "vector": "c",
     "system_error": "c",
-    "tuple": "c"
-},
+    "tuple": "c",
+    "functional": "c"
+  },
   "[c]": {
     "editor.formatOnSave": false
   },

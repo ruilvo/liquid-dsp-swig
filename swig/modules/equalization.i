@@ -22,10 +22,10 @@ eqlms_cccf eqlms_cccf_create_rnyquist(int _type, unsigned int _k,
                                       unsigned int _m, float _beta, float _dt);
 
 // These ones I already did
-%apply (liquid_float_complex INPUT) { ( liquid_float_complex _x ) };
+%apply (liquid_float_complex INPUT) { (liquid_float_complex _x) };
 void eqrls_cccf_push(eqrls_cccf _q, liquid_float_complex _x);
 void eqlms_cccf_push(eqlms_cccf _q, liquid_float_complex _x);
-%clear (liquid_float_complex *_x);
+%clear (liquid_float_complex _x);
 
 %apply (liquid_float_complex *SINGARGOUT) { ( liquid_float_complex *_y ) };
 void eqrls_cccf_execute(eqrls_cccf _q, liquid_float_complex *_y);
@@ -92,6 +92,7 @@ eqrls_cccf eqrls_cccf_recreate(eqrls_cccf _q, liquid_float_complex *_h,
 eqlms_cccf eqlms_cccf_recreate(eqlms_cccf _q, liquid_float_complex *_h,
                                unsigned int _h_len);
 %clear (liquid_float_complex *_h, unsigned int _n);
+%clear (liquid_float_complex *_h, unsigned int _h_len);
 
 
 /* Push block of samples into internal buffer of equalizer object       */

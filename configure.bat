@@ -1,4 +1,4 @@
-call activate datascience
+call activate extension-dev37
 
 if not exist "build\Release\" mkdir build\Release\
 
