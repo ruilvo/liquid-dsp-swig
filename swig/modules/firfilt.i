@@ -53,22 +53,9 @@ firfilt_cccf firfilt_cccf_create_kaiser(unsigned int _n, float _fc, float _As,
 firfilt_cccf firfilt_cccf_create_dc_blocker(unsigned int _m, float _As);
 firfilt_cccf firfilt_cccf_create_notch(unsigned int _m, float _As, float _f0);
 
-// Adding the typemaps by copy because I specifically do not want the argout!
 %apply(float complex* IN_ARRAY1, unsigned int DIM1)
   {(liquid_float_complex *_h, unsigned int _n)};
-// %apply (liquid_float_complex * INPLACE_ARRAY1, unsigned int DIM1)
-//        { (liquid_float_complex *_h, unsigned int _n) };
-/* Create a finite impulse response filter (firfilt) object by directly */
-/* specifying the filter coefficients in an array                       */
-/*  _h      : filter coefficients [size: _n x 1]                        */
-/*  _n      : number of filter coefficients, _n > 0                     */
 firfilt_cccf firfilt_cccf_create(liquid_float_complex *_h, unsigned int _n);
-/* Re-create filter object of potentially a different length with       */
-/* different coefficients. If the length of the filter does not change, */
-/* not memory reallocation is invoked.                                  */
-/*  _q      : original filter object                                    */
-/*  _h      : pointer to filter coefficients, [size: _n x 1]            */
-/*  _n      : filter length, _n > 0                                     */
 firfilt_cccf firfilt_cccf_recreate(firfilt_cccf _q, liquid_float_complex *_h,
                                    unsigned int _n);
 %clear (liquid_float_complex *_h, unsigned int _n);
@@ -89,27 +76,15 @@ void firfilt_cccf_push(firfilt_cccf _q, liquid_float_complex _x);
        { (liquid_float_complex *_x, unsigned int _n) };
 %apply (liquid_float_complex* INPLACE_ARRAY1)
        {(liquid_float_complex *_y)};
-/* Execute the filter on a block of input samples; in-place operation   */
-/* is permitted (_x and _y may point to the same place in memory)       */
-/*  _q      : filter object                                             */
-/*  _x      : pointer to input array, [size: _n x 1]                    */
-/*  _n      : number of input, output samples                           */
-/*  _y      : pointer to output array, [size: _n x 1]                   */
+
 void firfilt_cccf_execute_block(firfilt_cccf _q, liquid_float_complex *_x,
                                 unsigned int _n, liquid_float_complex *_y);
-/* Write block of samples into filter object's internal buffer          */
-/*  _q      : filter object                                             */
-/*  _x      : buffer of input samples, [size: _n x 1]                   */
-/*  _n      : number of input samples                                   */
+
 void firfilt_cccf_write(firfilt_cccf _q, liquid_float_complex *_x,
                         unsigned int _n);
 %clear (liquid_float_complex *_x, unsigned int _n);
 %clear (liquid_float_complex *_y);
 
-/* Compute complex frequency response of filter object                  */
-/*  _q      : filter object                                             */
-/*  _fc     : normalized frequency for evaluation                       */
-/*  _H      : pointer to output complex frequency response              */
 %apply (liquid_float_complex *OUTPUT) {(liquid_float_complex *_H)};
 void firfilt_cccf_freqresponse(firfilt_cccf _q, float _fc,
                                liquid_float_complex *_H);

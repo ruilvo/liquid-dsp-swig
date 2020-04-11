@@ -49,10 +49,7 @@ typedef enum {
     LIQUID_MODEM_ARB        // arbitrary QAM
 } modulation_scheme;
 
-// Python needs this to make a default destructor
 typedef struct modem_s *modem;
-
-// Functions to pass through
 
 modem modem_create(modulation_scheme _scheme);
 
