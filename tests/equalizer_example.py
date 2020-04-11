@@ -1,6 +1,8 @@
-# %% symsync_crcf_example.py
+# %% equalizer_example.py
 """
 Simple (incomplete) example of liquid-dsp bindings for Python with SWIG.
+
+This script makes a simple decision-oriented LMS equalization.
 """
 
 # %% Imports
